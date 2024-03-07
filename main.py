@@ -1,5 +1,6 @@
 from fileProcessing import *
 from background import *
+from Astar import *
 import random
 
 def main():
@@ -9,17 +10,21 @@ def main():
     # Initialize Pygame
     pygame.init()
     # Set up the display
-    # points = [[random.randint(1, 10) for _ in range(5)] for _ in range(5)]
+    points = aStar(graph)
     map = Map(cols + 1, rows + 1, graph)
     pygame.display.set_caption('Map Grid')
     # Main loop
     running = True
+    update = 1
     while running:
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
-        map.initMap()
-        map.drawGrid()
+        if (update == 1):
+            map.initMap()
+            map.drawGrid()
+            map.drawPath(points)
+            update = 0
         # Update the display
         pygame.display.flip()
     path = []
