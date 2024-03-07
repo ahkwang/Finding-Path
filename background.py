@@ -1,6 +1,7 @@
 import pygame
 import math
 from pygame.locals import *
+import time
 import sys
 
 WIDTH = 35
@@ -24,7 +25,7 @@ class Map:
         self.cols = cols
         self.rows = rows 
         self.graph = graph
-        self.win = pygame.display.set_mode((cols * WIDTH, rows * HEIGHT))
+        self.win = pygame.display.set_mode((cols * WIDTH + 300, rows * HEIGHT))
         self.win.fill((255, 255, 255))
     def drawGrid(self):
         for c in range(self.cols + 1):
@@ -39,7 +40,14 @@ class Map:
                 else:
                     color = mapColor(self.graph[row][col])  
                 pygame.draw.rect(self.win, color, (col * WIDTH, row * HEIGHT, WIDTH, HEIGHT))
-
+        self.drawGrid()
+    def drawPath(self, points):
+        for point in points:
+            pygame.draw.rect(self.win, (255, 0, 255), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
+            self.drawGrid()
+            time.sleep(0.2)
+            pygame.display.flip()
+            
 class Cell:
     def __init__(self, x, y):
         self.x = x

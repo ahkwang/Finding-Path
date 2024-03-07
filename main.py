@@ -1,5 +1,6 @@
 from fileProcessing import *
 from background import *
+import random
 
 def main():
     filename = "input.txt"
@@ -8,6 +9,7 @@ def main():
     # Initialize Pygame
     pygame.init()
     # Set up the display
+    # points = [[random.randint(1, 10) for _ in range(5)] for _ in range(5)]
     map = Map(cols + 1, rows + 1, graph)
     pygame.display.set_caption('Map Grid')
     # Main loop
@@ -20,7 +22,7 @@ def main():
         map.drawGrid()
         # Update the display
         pygame.display.flip()
-
+    path = []
     # Clean up
     pygame.quit()
     
