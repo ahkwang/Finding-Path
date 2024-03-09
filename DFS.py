@@ -4,25 +4,28 @@ class Cell:
         self.y = y
         self.parent = None
 
-def find_positions(array, x):
-    for i, row in enumerate(array):
+def find_positions(grid, value):
+    for i, row in enumerate(grid):
         for j, element in enumerate(row):
-            if element == x:
+            if element == value:
                 return Cell(i, j)
     return None
 
-def is_valid(cell, array):
-    return (0 <= cell.x < len(array)) and (0 <= cell.y < len(array[0])) and (array[cell.x][cell.y] != 1)
+def is_traversable(cell, grid, traversable_values):
+    return (0 <= cell.x < len(grid)) and (0 <= cell.y < len(grid[0])) and (grid[cell.x][cell.y] in traversable_values)
 
-def dfs(array):
-    start = find_positions(array, 2)  # Find start position
-    end = find_positions(array, 3)    # Find end position
+def dfs(grid):
+    traversable_values = [0, 2]
+    destination_value = 3
+
+    start = find_positions(grid, 2)
+    end = find_positions(grid, 3)
 
     if not start or not end:
-        return None  # If start or end is not found
+        return None  
 
     stack = [start]
-    visited = [[False for _ in range(len(array[0]))] for _ in range(len(array))]
+    visited = [[False for _ in range(len(grid[0]))] for _ in range(len(grid))]
     path = []
 
     while stack:
@@ -46,7 +49,7 @@ def dfs(array):
             ]
 
             for neighbor in neighbors:
-                if is_valid(neighbor, array) and not visited[neighbor.x][neighbor.y]:
+                if is_traversable(neighbor, grid, traversable_values) and not visited[neighbor.x][neighbor.y]:
                     neighbor.parent = current
                     stack.append(neighbor)
 
@@ -69,7 +72,9 @@ def main():
         [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
         [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
     ]
-    res = dfs(array)  # Call dfs with only the array
+    
+    res = dfs(array)  
+    
     if res:
         print("Path found:", res)
     else:
