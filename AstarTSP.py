@@ -26,7 +26,7 @@ def heuristicFunction(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 def isValid(a,N,M):
-    return (a[0] >= 0) and (a[1] >= 0) and (a[0]<N) and (a[1]<M)
+    return (a[0] > 0) and (a[1] > 0) and (a[0]<N) and (a[1]<M)
 
 def isDestination(a,des):
     return (a[0] == des[0]) and (a[1] == des[1])
@@ -48,7 +48,7 @@ def tracePath(dest, infoArray):
 
 
 
-def aStar(array,start, end):
+def aStarPlus(array,start, end):
     N = len(array)
     M = len(array[0]) if array else 0
     d4i=[(1,0),(0,1),(-1,0),(0,-1)]
@@ -118,7 +118,7 @@ def findPickUpPoint(array, x):
 
 
 def aStarTSP(array):
-    array=reverse_rows_using_loop(array)
+    #array=reverse_rows_using_loop(array)
     
     N = len(array)
     M = len(array[0]) if array else 0
@@ -151,7 +151,7 @@ def aStarTSP(array):
         currentPoint = start
         childPath = []
         for i in listPoint:
-            t1,t2= aStar(array,currentPoint,i)
+            t1,t2= aStarPlus(array,currentPoint,i)
             childPath+=t1
             currentCost += t2
             currentPoint = i

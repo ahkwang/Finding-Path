@@ -48,7 +48,7 @@ def tracePath(dest, infoArray):
 
 
 def aStar(array):
-    array=reverse_rows_using_loop(array)
+    #array=reverse_rows_using_loop(array)
     N = len(array)
     M = len(array[0]) if array else 0
     start = find_positions(array,2)

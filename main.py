@@ -1,6 +1,6 @@
 from fileProcessing import *
 from background import *
-#from Astar import *
+from Astar import *
 from AstarTSP import *
 from DFS import *
 import random
