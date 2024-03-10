@@ -1,4 +1,5 @@
 import heapq
+import itertools
 
 class Cell:
     def __init__(self):
@@ -6,7 +7,6 @@ class Cell:
         self.f = float('inf')
         self.g = 0
         self.h = 0
-
 
 def reverse_rows_using_loop(array):
   num_rows = len(array)
@@ -31,6 +31,7 @@ def isValid(a,N,M):
 def isDestination(a,des):
     return (a[0] == des[0]) and (a[1] == des[1])
 
+
 def tracePath(dest, infoArray):
     path = []
     x = dest[0]
@@ -47,23 +48,20 @@ def tracePath(dest, infoArray):
 
 
 
-def aStar(array):
-    array=reverse_rows_using_loop(array)
+def aStar(array,start, end):
     N = len(array)
     M = len(array[0]) if array else 0
-    start = find_positions(array,2)
-    end = find_positions(array,3)
     d4i=[(1,0),(0,1),(-1,0),(0,-1)]
     if not isValid(start,N,M) or not isValid(end,N,M) :
-        print("Source or destination is invalid")
+        #print("Source or destination is invalid")
         return
     
     if (array[start[0]][start[1]]==1) or (array[end[0]][end[1]]==1):
-        print("Source or destination is invalid")
+        #print("Source or destination is invalid")
         return
     
     if (start[0]==end[0]) and (start[1] == end[1]):
-        print("Source is equal Destination ,Source are already at the destination")
+        #print("Source is equal Destination ,Source are already at the destination")
         return
     
     close_list= [[False for _ in range(M)]for _ in range(N)]
@@ -81,6 +79,7 @@ def aStar(array):
     open_list = []
     heapq.heappush(open_list, (0, start))
 
+
     while len(open_list)>0:
         x= heapq.heappop(open_list)
         t= x[1]
@@ -92,10 +91,8 @@ def aStar(array):
             newPoint = [xNew,yNew]
             if isValid(newPoint,N,M) and (array[xNew][yNew]!=1) and not close_list[xNew][yNew]:
                 if isDestination(newPoint,end):
-                    flagCheck = True
                     infoArray[xNew][yNew].point=t
-                    print("Path cost ", (infoArray[t[0]][t[1]].g + 1))
-                    return tracePath(end,infoArray)
+                    return tracePath(end,infoArray), infoArray[t[0]][t[1]].g + 1
                 else:
                     gNew = infoArray[t[0]][t[1]].g + 1
                     hNew = heuristicFunction(newPoint,end)
@@ -103,7 +100,6 @@ def aStar(array):
                     
                     if (infoArray[xNew][yNew].f== float("inf")) or (infoArray[xNew][yNew].f > fNew):
                         heapq.heappush(open_list, (fNew,[xNew,yNew]))
-                        # Update the cell details
                         infoArray[xNew][yNew].f = fNew
                         infoArray[xNew][yNew].h = hNew
                         infoArray[xNew][yNew].g = gNew
@@ -111,25 +107,80 @@ def aStar(array):
 
 
 
+def findPickUpPoint(array, x):
+    res=[]
+    for i, row in enumerate(array):
+        for j, element in enumerate(row):
+            if element == x:
+                res.append([i,j])
+    return res
+
+
+
+def aStarTSP(array):
+    array=reverse_rows_using_loop(array)
+    
+    N = len(array)
+    M = len(array[0]) if array else 0
+    start = find_positions(array,2)
+    end = find_positions(array,3)
+
+    if not isValid(start,N,M) or not isValid(end,N,M):
+        print("Source or destination is invalid")
+        return
+
+    if (array[start[0]][start[1]] == 1) or (array[end[0]][end[1]] == 1):
+        print("Source or destination is invalid")
+        return
+
+    if (start[0] == end[0]) and (start[1] == end[1]):
+        print("Source is equal Destination, Source are already at the destination")
+        return
+
+    pupl = findPickUpPoint(array, 4) # pick up point list
+    permutation =[list(perm) for perm in itertools.permutations(pupl)]
+    
+    
+    optimalCost = float('inf')
+    res = None
+
+    
+    for listPoint in permutation:
+        listPoint.append(end)
+        currentCost = 0
+        currentPoint = start
+        childPath = []
+        for i in listPoint:
+            t1,t2= aStar(array,currentPoint,i)
+            childPath+=t1
+            currentCost += t2
+            currentPoint = i
+            if i!= end :
+                childPath= childPath[:-1]
+        if currentCost < optimalCost:
+            optimalCost = currentCost
+            res = childPath
+    return res
+
+
 def main():
     array = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0 ],
         [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0 ],
         [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
+        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0 ],   
         [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
     ]
-    
-    res = aStar(array)
+    res = aStarTSP(array)
     print(res)
     
 

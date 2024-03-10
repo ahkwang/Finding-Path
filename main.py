@@ -1,6 +1,7 @@
 from fileProcessing import *
 from background import *
-from Astar import *
+#from Astar import *
+from AstarTSP import *
 from DFS import *
 import random
 
@@ -11,7 +12,7 @@ def main():
     # Initialize Pygame
     pygame.init()
     # Set up the display
-    points = dfs(graph)
+    points = aStarTSP(graph)
     map = Map(cols + 1, rows + 1, graph)
     pygame.display.set_caption('Map Grid')
     # Main loop
