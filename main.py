@@ -2,25 +2,42 @@ from fileProcessing import *
 from background import *
 from Astar import *
 from DFS import *
+from menu import *
+from AstarTSP import *
 import random
 
 def main():
-    filename = "input.txt"
+    # read from input 
+    filename = "input1.txt"
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
+    #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
+    points = aStarTSP(graph)
+
     # Initialize Pygame
     pygame.init()
     # Set up the display
-    points = dfs(graph)
-    map = Map(cols + 1, rows + 1, graph)
+
+    map = Map(graph)
     pygame.display.set_caption('Map Grid')
     # Main loop
     running = True
     update = 1
+    functionList = ['DFS', 'GBFS', 'A*']
+    buttonList = drawButtonList(map.win, map.cols * WIDTH + 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT, functionList)
     while running:
         for event in pygame.event.get():
-            if event.type == QUIT:
-                running = False
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    xPos, yPos = pygame.mouse.get_pos()
+                    choice(xPos, yPos, buttonList)
         if (update == 1):
             map.initMap()
             map.drawGrid()
