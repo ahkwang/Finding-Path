@@ -30,6 +30,7 @@ def main():
     # Initialize Pygame
     pygame.init()
     # Set up the display
+
     map = Map(graph)
     pygame.display.set_caption('Map Grid')
     # Main loop
