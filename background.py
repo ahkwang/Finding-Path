@@ -21,11 +21,11 @@ def mapColor(num):
     }
     return color_dict.get(num, (255, 255, 255))
 class Map:
-    def __init__(self, cols, rows, graph):
-        self.cols = cols
-        self.rows = rows 
+    def __init__(self, graph):
+        self.rows = len(graph) 
+        self.cols = len(graph[0]) 
         self.graph = graph
-        self.win = pygame.display.set_mode((cols * WIDTH + 300, rows * HEIGHT))
+        self.win = pygame.display.set_mode((self.cols * WIDTH + 300, self.rows * HEIGHT))
         self.win.fill((255, 255, 255))
     def drawGrid(self):
         for c in range(self.cols + 1):

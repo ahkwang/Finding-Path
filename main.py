@@ -1,17 +1,36 @@
 from fileProcessing import *
 from background import *
 from Astar import *
+from DFS import *
 import random
 
 def main():
-    filename = "input.txt"
-    cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
-    graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
+    #read from input 
+    # filename = "input.txt"
+    # cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
+    # #return 2d array assigned to graph 
+    # graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
+    graph = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+    ]
     # Initialize Pygame
     pygame.init()
     # Set up the display
-    points = aStar(graph)
-    map = Map(cols + 1, rows + 1, graph)
+    map = Map(graph)
     pygame.display.set_caption('Map Grid')
     # Main loop
     running = True
@@ -23,7 +42,7 @@ def main():
         if (update == 1):
             map.initMap()
             map.drawGrid()
-            map.drawPath(points)
+            # map.drawPath(points)
             update = 0
         # Update the display
         pygame.display.flip()
