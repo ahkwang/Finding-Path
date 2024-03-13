@@ -1,5 +1,11 @@
 import math
+import sys
+MAX = 10000
+
+
+
 def read_Array(array2D, startPoint, endPoint, pickupPoint):
+    
     for i, row in enumerate(array2D):
         for j, element in enumerate(row):
             if element == 3:
@@ -8,10 +14,14 @@ def read_Array(array2D, startPoint, endPoint, pickupPoint):
             if element == 2:
                 startPoint[0] = j
                 startPoint[1] = len(array2D)-1-i
-            
+            if element == 4:
+                indexPoint=[0,0]
+                indexPoint[0] = j
+                indexPoint[1] = len(array2D)-1-i
+                pickupPoint.append(indexPoint)       
 
 
-def caculate_Distance ( point1, point2):
+def PytagoDistance ( point1, point2):
     return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
 def check_Valid(point, array2D, arrayPath):
@@ -21,20 +31,13 @@ def check_Valid(point, array2D, arrayPath):
         return False
     return True
 
+def Gready_Travel (startPoint, endPoint, array2D, cost ):
 
-def Greedy (array2D):
-    startPoint=[0,0]
-    endPoint=[0,0]
-    pickupPoint=[]
-    read_Array(array2D, startPoint, endPoint, pickupPoint)
-
-
-    indexPoint= startPoint[:]
-
-    arrayPath=[]
-    arrayPath.append(indexPoint)
-    
-    while (array2D[len(array2D)-1-indexPoint[1]][indexPoint[0]]!=3):
+    indexPoint = startPoint[:]
+    Path = []
+    cost[0] = 0
+    while (indexPoint != endPoint):
+        Path.append(indexPoint)
 
         right=[indexPoint[0]+1,indexPoint[1]]
         left=[indexPoint[0]-1,indexPoint[1]]
@@ -42,44 +45,130 @@ def Greedy (array2D):
         down=[indexPoint[0],indexPoint[1]-1]
 
 
-        distance=len(array2D)+len(array2D[0]) # có thể gán là một số rất lớn bất kì 
+        distance = MAX
         
-        if(check_Valid(up,array2D,arrayPath) and distance > caculate_Distance(up,endPoint)):
+        if(check_Valid(up,array2D,Path) and distance > PytagoDistance(up,endPoint)):
             indexPoint=up[:]
-            distance = caculate_Distance(up,endPoint)
-        if(check_Valid(right,array2D,arrayPath) and distance > caculate_Distance(right,endPoint)):
+            distance = PytagoDistance(up,endPoint)
+        if(check_Valid(right,array2D,Path) and distance > PytagoDistance(right,endPoint)):
             indexPoint=right[:]
-            distance = caculate_Distance(right,endPoint)
-        if(check_Valid(down,array2D,arrayPath) and distance > caculate_Distance(down,endPoint)):
+            distance = PytagoDistance(right,endPoint)
+        if(check_Valid(down,array2D,Path) and distance > PytagoDistance(down,endPoint)):
             indexPoint=down[:]
-            distance = caculate_Distance(down,endPoint)
-        if(check_Valid(left,array2D,arrayPath) and distance > caculate_Distance(left,endPoint)):
+            distance = PytagoDistance(down,endPoint)
+        if(check_Valid(left,array2D,Path) and distance > PytagoDistance(left,endPoint)):
             indexPoint=left[:]
-            distance = caculate_Distance(left,endPoint)
+            distance = PytagoDistance(down,endPoint)
+            
+        print (indexPoint)
+        if distance == MAX:
+            raise EnvironmentError ( "Cannot find path !")
         
-        arrayPath.append(indexPoint)
+        
+        cost[0] += 1
 
-    return arrayPath
+    return Path
+
+
+def fun(endPoint, pickupPoint, array2D, main_Path): 
+    if len(pickupPoint) == 2 :
+        sub_cost = [0]
+        sub_cost [0] = 0
+        main_Path += Gready_Travel(pickupPoint[0], endPoint, array2D, sub_cost)
+        return sub_cost[0]
+
+    cost = MAX
+    temp_pickupPoint = pickupPoint.copy()
+    temp_pickupPoint.remove(endPoint)
+    res_Path=[]
+
+    for indexPoint in temp_pickupPoint[1:]:
+        sub_Path=[]
+        
+        sub_cost = [0]
+        sub_cost [0] = 0
+        endPath = Gready_Travel(indexPoint, endPoint, array2D, sub_cost)
+
+        temp = min(cost, fun(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
+
+        if (temp < cost):
+            cost = temp 
+            sub_Path += endPath
+            res_Path = sub_Path[:]
+    
+    main_Path += res_Path
+    return cost
+
+
+def Greedy (array2D):
+    startPoint=[0,0]
+    endPoint=[0,0]
+    pickupPoint=[]
+    main_Path=[]
+
+    read_Array(array2D, startPoint, endPoint, pickupPoint)
+
+    cost = [0]
+    cost[0] = MAX
+    
+
+    if len(pickupPoint) == 0:
+        main_Path += Gready_Travel(startPoint, endPoint, array2D, cost)
     
     
     
+    pickupPoint.insert(0,startPoint)
+    temp_pickupPoint = pickupPoint.copy()
+    res_Path=[] # save the path has less cost after the recur
+
+    for indexPoint in temp_pickupPoint[1:]:
+        sub_Path=[] # save the path at each recursion 
+        sub_cost = [0]
+        sub_cost [0] = 0
+        endPath = Gready_Travel(indexPoint, endPoint, array2D, sub_cost)
+        endPath.append(endPoint)
+
+        temp = min(cost[0], fun(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
+
+        if (temp < cost[0]):
+            cost[0] = temp 
+            sub_Path += endPath
+            res_Path = sub_Path[:]
+            
+    main_Path += res_Path
+
+    return main_Path, cost[0]
+
     
     
+'''
 def main():
-    array = [
-        [0, 0, 1, 0, 0, 0],
-        [0, 0, 1, 0, 3, 0],
-        [0, 0, 2, 1, 0, 0],
-        [0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-       
+    array2D = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 ],
+        [4, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 3, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
     ]
     
-    
-    res = Greedy(array)
-    print(res)
-    
+    try:
+
+        path,cost = Greedy(array2D)
+        
+    except EnvironmentError as e:
+        print ("Error: ", e)
+    else:
+        print(path,"\n",cost)
 
 if __name__ == "__main__":
     main()
-
+'''
