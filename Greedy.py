@@ -60,7 +60,7 @@ def Gready_Travel (startPoint, endPoint, array2D, cost ):
             indexPoint=left[:]
             distance = PytagoDistance(down,endPoint)
             
-        print (indexPoint)
+        
         if distance == MAX:
             raise EnvironmentError ( "Cannot find path !")
         
@@ -70,7 +70,7 @@ def Gready_Travel (startPoint, endPoint, array2D, cost ):
     return Path
 
 
-def fun(endPoint, pickupPoint, array2D, main_Path): 
+def dp_TSP(endPoint, pickupPoint, array2D, main_Path): 
     if len(pickupPoint) == 2 :
         sub_cost = [0]
         sub_cost [0] = 0
@@ -128,7 +128,7 @@ def Greedy (array2D):
         endPath = Gready_Travel(indexPoint, endPoint, array2D, sub_cost)
         endPath.append(endPoint)
 
-        temp = min(cost[0], fun(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
+        temp = min(cost[0], dp_TSP(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
 
         if (temp < cost[0]):
             cost[0] = temp 
