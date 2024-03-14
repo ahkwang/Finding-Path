@@ -9,15 +9,15 @@ import random
 
 def main():
     # read from input 
-    filename = "input1.txt"
+    filename = "input4.txt"
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
-    points = dfsTSP(graph)
+    points = dfs(graph)
 
     # Initialize Pygame
     pygame.init()
-    # Set up the display
+    # Set up the displays
 
     map = Map(graph)
     pygame.display.set_caption('Map Grid')
@@ -42,7 +42,10 @@ def main():
         if (update == 1):
             map.initMap()
             map.drawGrid()
-            map.drawPath(points)
+            if points is None:
+                print("no path found.")
+            else:
+                map.drawPath(points)
             update = 0
         # Update the display
         pygame.display.flip()

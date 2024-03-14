@@ -13,7 +13,6 @@ def find_positions(grid, value):
     return None
 
 def is_traversable(cell, grid):
-    # Check if cell is on the border and marked as 0, making it non-traversable
     if cell.x == 0 or cell.x == len(grid) - 1 or cell.y == 0 or cell.y == len(grid[0]) - 1:
         if grid[cell.x][cell.y] == 0:
             return False
@@ -27,7 +26,7 @@ def trace_path(cell):
     path.reverse()
     return path
 
-def dfs(grid, start, end):
+def dfs2(grid, start, end):
     if not start or not end:
         return None  
 
@@ -73,14 +72,14 @@ def dfsTSP(grid):
         current_length = 0
         current_point = start
         for next_point in permutation:
-            path_segment = dfs(grid, current_point, next_point)
+            path_segment = dfs2(grid, current_point, next_point)
             if not path_segment:
                 break  
             current_path.extend(path_segment if current_point == start else path_segment[1:])
             current_length += len(path_segment) - 1
             current_point = next_point
         else:
-            path_to_end = dfs(grid, current_point, end)
+            path_to_end = dfs2(grid, current_point, end)
             if path_to_end:
                 current_path.extend(path_to_end if current_point == start else path_to_end[1:])
                 current_length += len(path_to_end) - 1
