@@ -9,15 +9,15 @@ def read_Array(array2D, startPoint, endPoint, pickupPoint):
     for i, row in enumerate(array2D):
         for j, element in enumerate(row):
             if element == 3:
-                endPoint[0] = j
-                endPoint[1] = len(array2D)-1-i
+                endPoint[0] = i
+                endPoint[1] = j
             if element == 2:
-                startPoint[0] = j
-                startPoint[1] = len(array2D)-1-i
+                startPoint[0] = i
+                startPoint[1] = j
             if element == 4:
                 indexPoint=[0,0]
-                indexPoint[0] = j
-                indexPoint[1] = len(array2D)-1-i
+                indexPoint[0] = i
+                indexPoint[1] = j
                 pickupPoint.append(indexPoint)       
 
 
@@ -25,7 +25,7 @@ def PytagoDistance ( point1, point2):
     return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
 
 def check_Valid(point, array2D, arrayPath):
-    if  point[0] < 0 or (point[0] > len(array2D[0])-1) or point[1] < 0 or point[1] > len(array2D)-1 or array2D[len(array2D)-1-point[1]][point[0]] == 1 :
+    if  point[0] < 1 or point[0] > len(array2D)-2 or point[1] < 1 or point[1] > len(array2D[0])-2 or array2D[point[0]][point[1]] == 1 :
         return False
     if point in arrayPath:
         return False
@@ -137,29 +137,39 @@ def Greedy (array2D):
             
     main_Path += res_Path
 
-    return main_Path, cost[0]
+    #return main_Path, cost[0]
+    return main_Path
 
     
-'''
+
 def main():
     array2D = [
-        [0, 0, 0, 0, 0, 0, 0, ],
-        [0, 4, 0, 0, 0, 3, 0, ],
-        [0, 1, 1, 4, 0, 0, 0, ],
-        [0, 2, 1, 0, 0, 0, 0, ],
-        [0, 1, 0, 0, 0, 0, 0, ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0 ],   
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
        
     ]
     
     try:
 
-        path,cost = Greedy(array2D)
+        path = Greedy(array2D)
         
     except EnvironmentError as e:
         print ("Error: ", e)
     else:
-        print(path,"\n",cost)
+        print(path,"\n")
 
 if __name__ == "__main__":
     main()
-'''
+
