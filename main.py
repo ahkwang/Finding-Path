@@ -5,11 +5,12 @@ from DFS import *
 from menu import *
 from AstarTSP import *
 from DFSTSP import *
+from Greedy import *
 import random
 
 def main():
     # read from input 
-    filename = "input4.txt"
+    filename = "input2.txt"
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
