@@ -29,4 +29,3 @@ def choice(xPos, yPos, buttonList):
         if button.collidepoint(xPos, yPos):
             print("Clicked")
 
-def mapChoice()

@@ -4,6 +4,7 @@ from Astar import *
 from DFS import *
 from menu import *
 from AstarTSP import *
+from DFSTSP import *
 import random
 
 def main():
@@ -12,7 +13,7 @@ def main():
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
-    points = aStarTSP(graph)
+    points = dfsTSP(graph)
 
     # Initialize Pygame
     pygame.init()
