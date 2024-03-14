@@ -1,5 +1,4 @@
 import itertools
-
 class Cell:
     def __init__(self, x, y):
         self.x = x
@@ -14,6 +13,10 @@ def find_positions(grid, value):
     return None
 
 def is_traversable(cell, grid):
+    # Check if cell is on the border and marked as 0, making it non-traversable
+    if cell.x == 0 or cell.x == len(grid) - 1 or cell.y == 0 or cell.y == len(grid[0]) - 1:
+        if grid[cell.x][cell.y] == 0:
+            return False
     return (0 <= cell.x < len(grid)) and (0 <= cell.y < len(grid[0])) and (grid[cell.x][cell.y] != 1)
 
 def trace_path(cell):
@@ -86,30 +89,3 @@ def dfsTSP(grid):
                     shortest_path = current_path
 
     return shortest_path
-
-def main():
-    grid = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0 ],
-        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
-        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-    ]
-    res = dfsTSP(grid)
-    if res:
-        print("Path found:", res)
-    else:
-        print("No path found")
-
-if __name__ == "__main__":
-    main()
