@@ -13,7 +13,7 @@ def main():
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
-    points = Greedy(graph)
+    points = ASTAR(graph)
 
     # Initialize Pygame
     pygame.init()

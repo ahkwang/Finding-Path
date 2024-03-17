@@ -1,6 +1,7 @@
 import heapq
 import itertools
 import numpy as np
+import math
 
 class Cell:
     def __init__(self):
@@ -59,7 +60,7 @@ def find_positions(array, x):
 
 
 def heuristicFunction(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+    return math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
 
 def isValid(a,N,M):
     return (a[0] > 0) and (a[1] > 0) and (a[0]<N-1) and (a[1]<M-1)
@@ -96,7 +97,7 @@ def aStarPlus(array,start, end, pathsaving):
         return pathsaving.get_path(start,end)
     N = len(array)
     M = len(array[0]) if array else 0
-    d4i=[(1,0),(0,1),(-1,0),(0,-1)]
+    d4i=[(1,0),(0,1),(-1,0),(0,-1),(1,1),(-1,-1),(1,-1),(-1,1)]
     if not isValid(start,N,M) or not isValid(end,N,M) :
         #print("Source or destination is invalid")
         return
@@ -134,7 +135,19 @@ def aStarPlus(array,start, end, pathsaving):
             xNew = t[0] + change[0]
             yNew = t[1] + change[1]
             newPoint = [xNew,yNew]
-            if isValid(newPoint,N,M) and (array[xNew][yNew]!=1) and not close_list[xNew][yNew]:
+            if not isValid(newPoint,N,M):
+                continue
+
+            if change[0]==1 and change[1]==1 and array[t[0]+1][t[1]]==1 and array[t[0]][t[1]+1]==1:
+                continue
+            if change[0]==1 and change[1]==-1 and array[t[0]+1][t[1]]==1 and array[t[0]][t[1]-1]==1:
+                continue
+            if change[0]==-1 and change[1]==-1 and array[t[0]-1][t[1]]==1 and array[t[0]][t[1]-1]==1:
+                continue
+            if change[0]==-1 and change[1]==1 and array[t[0]-1][t[1]]==1 and array[t[0]][t[1]+1]==1:
+                continue
+            
+            if (array[xNew][yNew]!=1) and not close_list[xNew][yNew]:
                 if isDestination(newPoint,end):
                     infoArray[xNew][yNew].point=t
                     t1= tracePath(end,infoArray)
@@ -223,10 +236,10 @@ def main():
         [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-        [0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
+        [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
+        [0, 3, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0 ],
+        [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
         [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
     ]
     res = ASTAR(array)

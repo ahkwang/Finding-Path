@@ -46,7 +46,7 @@ class Map:
             pygame.draw.rect(self.win, (255, 0, 255), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             self.drawGrid()
             pygame.display.flip()
-            time.sleep(0.05)
+            time.sleep(0.1)
             pygame.draw.rect(self.win, (255, 255, 255), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             self.drawGrid()
             pygame.display.flip()
