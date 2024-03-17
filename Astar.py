@@ -153,8 +153,8 @@ def aStarPlus(array,start, end, pathsaving):
                     t1= tracePath(end,infoArray)
                     t2 =infoArray[t[0]][t[1]].g + 1
                     pathsaving.add_path(start,end,t1,t2)
-                    #return pathsaving.get_path(start,end)
-                    return t1,t2
+                    return pathsaving.get_path(start,end)
+                    #return t1,t2
                 else:
                     gNew = infoArray[t[0]][t[1]].g + 1
                     hNew = heuristicFunction(newPoint,end)

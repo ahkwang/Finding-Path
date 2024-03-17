@@ -9,7 +9,7 @@ import random
 
 def main():
     # read from input 
-    filename = "input2.txt"
+    filename = "input1.txt"
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
