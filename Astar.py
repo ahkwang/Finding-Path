@@ -28,7 +28,7 @@ class PathGraph:
         return self.paths.get(start_point, {}).get(end_point, None)
 
 
-def change_border_to_one(array):
+def changeBorderToOne(array):
     N = len(array)
     M = len(array[0]) if array else 0
     N-=1
@@ -44,14 +44,14 @@ def change_border_to_one(array):
     
 
 
-def reverse_rows_using_loop(array):
+def reverseRowsUsingLoop(array):
   num_rows = len(array)
   for i in range(num_rows // 2):
     array[i], array[num_rows - 1 - i] = array[num_rows - 1 - i], array[i]
   return array
 
 
-def find_positions(array, x):
+def findPositions(array, x):
     for i, row in enumerate(array):
         for j, element in enumerate(row):
             if element == x:
@@ -170,11 +170,11 @@ def aStarPlus(array,start, end, pathsaving):
 
 def ASTAR(array):
     #array=reverse_rows_using_loop(array)
-    array=change_border_to_one(array)
+    array=changeBorderToOne(array)
     N = len(array)
     M = len(array[0]) if array else 0
-    start = find_positions(array,2)
-    end = find_positions(array,3)
+    start = findPositions(array,2)
+    end = findPositions(array,3)
     if start==None:
         print("No Source found")
         return None
