@@ -47,7 +47,10 @@ class Map:
             self.drawGrid()
             pygame.display.flip()
             time.sleep(0.1)
-            pygame.draw.rect(self.win, (255, 255, 255), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
+            if (self.graph[point[0]][point[1]] != 0):
+                pygame.draw.rect(self.win, mapColor(self.graph[point[0]][point[1]]) , (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
+            else: 
+                pygame.draw.rect(self.win, (255, 153, 51) , (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             self.drawGrid()
             pygame.display.flip()
             
