@@ -62,12 +62,7 @@ def Gready_Travel (startPoint, endPoint, array2D, cost ):
             
         
         if distance == MAX:
-<<<<<<< HEAD
-            return []
-=======
             return None
->>>>>>> d824b4dcf18e594ed3fe0f38438e0aa8ddfc6078
-        
         
         cost[0] += 1
 
