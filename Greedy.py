@@ -62,7 +62,7 @@ def Gready_Travel (startPoint, endPoint, array2D, cost ):
             
         
         if distance == MAX:
-            raise EnvironmentError ( "Cannot find path !")
+            return []
         
         
         cost[0] += 1

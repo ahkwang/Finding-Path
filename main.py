@@ -19,7 +19,7 @@ def main():
     map = Map(graph)
     running = True
     funcChoice = -1
-    functionList = ['DFS', 'GBFS', 'A*']
+    functionList = ['DFS', 'GBFS', 'A*', 'BACK']
     buttonList = drawButtonList(map.win, map.cols * WIDTH + 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT, functionList)
     map.initMap()
     while running:
@@ -36,13 +36,16 @@ def main():
                     xPos, yPos = pygame.mouse.get_pos()
                     funcChoice = choice(xPos, yPos, buttonList)
         if (funcChoice != -1):
-            map.initMap()
-            points = findPath(graph, funcChoice)
-            if points is None:
-                print("no path found.")
+            if (funcChoice == 3):
+                main()
             else:
-                map.drawPath(points)
-            funcChoice = -1
+                map.initMap()
+                points = findPath(graph, funcChoice)
+                if points is None:
+                    print("no path found.")
+                else:
+                    map.drawPath(points)
+                funcChoice = -1
         # Update the display
         pygame.display.flip()
     path = []
