@@ -62,7 +62,11 @@ def Gready_Travel (startPoint, endPoint, array2D, cost ):
             
         
         if distance == MAX:
+<<<<<<< HEAD
             return []
+=======
+            return None
+>>>>>>> d824b4dcf18e594ed3fe0f38438e0aa8ddfc6078
         
         
         cost[0] += 1
@@ -100,44 +104,46 @@ def dp_TSP(endPoint, pickupPoint, array2D, main_Path):
     return cost
 
 
-def Greedy (array2D):
-    startPoint=[0,0]
-    endPoint=[0,0]
-    pickupPoint=[]
-    main_Path=[]
+def Greedy(array2D):
+    startPoint = [0, 0]
+    endPoint = [0, 0]
+    pickupPoint = []
+    main_Path = []
 
     read_Array(array2D, startPoint, endPoint, pickupPoint)
 
     cost = [0]
     cost[0] = MAX
-    
 
     if len(pickupPoint) == 0:
-        main_Path += Gready_Travel(startPoint, endPoint, array2D, cost)
-    
-    
-    
-    pickupPoint.insert(0,startPoint)
+        path = Gready_Travel(startPoint, endPoint, array2D, cost)
+        if path is not None:
+            main_Path += path
+        else:
+            return None  # Or any appropriate handling
+
+    pickupPoint.insert(0, startPoint)
     temp_pickupPoint = pickupPoint.copy()
-    res_Path=[] # save the path has less cost after the recur
+    res_Path = []  # save the path has less cost after the recur
 
     for indexPoint in temp_pickupPoint[1:]:
-        sub_Path=[] # save the path at each recursion 
+        sub_Path = []  # save the path at each recursion 
         sub_cost = [0]
-        sub_cost [0] = 0
+        sub_cost[0] = 0
         endPath = Gready_Travel(indexPoint, endPoint, array2D, sub_cost)
-        endPath.append(endPoint)
+        if endPath is not None:
+            endPath.append(endPoint)
 
-        temp = min(cost[0], dp_TSP(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
+            temp = min(cost[0], dp_TSP(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
 
-        if (temp < cost[0]):
-            cost[0] = temp 
-            sub_Path += endPath
-            res_Path = sub_Path[:]
-            
+            if temp < cost[0]:
+                cost[0] = temp 
+                sub_Path += endPath
+                res_Path = sub_Path[:]
+        else:
+            return None  # Or any appropriate handling
+
     main_Path += res_Path
-
-    #return main_Path, cost[0]
     return main_Path
 
     
