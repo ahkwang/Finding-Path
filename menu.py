@@ -20,13 +20,13 @@ def drawButtonList(win, x, y, width, height, functionList):
         buttonList.append(Button(drawButton(win, x, y + height*1.5*i, width, height, function, BACKGROUND_COLOR), function))
         i+=1
     return buttonList
-def drawButton(win, x, y, width, height, text, color):
+def drawButton(win, x, y, width, height, text, color, size = 35):
     pygame.draw.rect(
         win,
         color,
         (x, y, width, height)
     )
-    algoName = pygame.font.SysFont('Helvetica',35).render(text, True, (255, 255, 255))
+    algoName = pygame.font.SysFont('Helvetica', size).render(text, True, (255, 255, 255))
     algoNameRect = algoName.get_rect(center = (x + width/2, y + height/2))
     win.blit(algoName, algoNameRect)
     return pygame.Rect(x, y, width, height)

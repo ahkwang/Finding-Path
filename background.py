@@ -1,6 +1,7 @@
 import pygame
 import math
 from pygame.locals import *
+from menu import *
 import time
 import sys
 
@@ -42,6 +43,10 @@ class Map:
                 pygame.draw.rect(self.win, color, (col * WIDTH, row * HEIGHT, WIDTH, HEIGHT))
         self.drawGrid()
     def drawPath(self, points):
+        if points is None: 
+            drawButton(self.win, WIDTH*self.cols/2 - 225, HEIGHT*self.rows/2, 450, 100, 'No path found', (120,120, 120), 80)
+            pygame.display.flip()
+            return
         for point in points:
             pygame.draw.rect(self.win, (255, 128, 0), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             self.drawGrid()

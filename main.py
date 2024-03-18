@@ -8,14 +8,10 @@ from Greedy import *
 import random
 
 def main():
-    # read from input 
     pygame.init()
     filename = mapChoice()
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
-    #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
-    # Set up the displays
-    # Main loop
     map = Map(graph)
     running = True
     funcChoice = -1
@@ -41,10 +37,7 @@ def main():
             else:
                 map.initMap()
                 points = findPath(graph, funcChoice)
-                if points is None:
-                    print("no path found.")
-                else:
-                    map.drawPath(points)
+                map.drawPath(points)
                 funcChoice = -1
         # Update the display
         pygame.display.flip()
