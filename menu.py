@@ -1,7 +1,9 @@
 from background import *
+from Astar import *
+from DFSTSP import *
+from Greedy import *
 
 FILENAME = ['input1.txt', 'input2.txt', 'input3.txt', 'input4.txt', 'input5.txt']
-functionList = ['DFS', 'GBFS', 'A*']
 BACKGROUND_COLOR = (255, 2, 3)
 TEXT_COLOR = (204, 204, 255)
 BUTTON_WIDTH = 100
@@ -33,7 +35,13 @@ def choice(xPos, yPos, buttonList):
     for i in range(len(buttonList)): 
         if buttonList[i].button.collidepoint(xPos, yPos):
             return i 
-
+def findPath(graph, i):
+    if (i == 0):
+        return dfsTSP(graph)
+    if (i == 1):
+        return Greedy(graph)
+    if (i == 2):
+        return ASTAR(graph)
 def mapChoice():
     mapWidth = 500
     mapHeight = 400

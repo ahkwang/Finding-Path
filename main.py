@@ -14,14 +14,11 @@ def main():
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
-    points = ASTAR(graph)
-
-    
     # Set up the displays
     # Main loop
     map = Map(graph)
     running = True
-    update = 0
+    funcChoice = -1
     functionList = ['DFS', 'GBFS', 'A*']
     buttonList = drawButtonList(map.win, map.cols * WIDTH + 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT, functionList)
     map.initMap()
@@ -37,13 +34,15 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     xPos, yPos = pygame.mouse.get_pos()
-                    choice(xPos, yPos, buttonList)
-        if (update == 1):
+                    funcChoice = choice(xPos, yPos, buttonList)
+        if (funcChoice != -1):
+            map.initMap()
+            points = findPath(graph, funcChoice)
             if points is None:
                 print("no path found.")
             else:
                 map.drawPath(points)
-            update = 0
+            funcChoice = -1
         # Update the display
         pygame.display.flip()
     path = []
