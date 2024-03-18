@@ -1,5 +1,6 @@
 from background import *
 
+FILENAME = ['input1.txt', 'input2.txt', 'input3.txt', 'input4.txt', 'input5.txt']
 functionList = ['DFS', 'GBFS', 'A*']
 BACKGROUND_COLOR = (255, 2, 3)
 TEXT_COLOR = (204, 204, 255)
@@ -29,18 +30,18 @@ def drawButton(win, x, y, width, height, text, color):
     return pygame.Rect(x, y, width, height)
 
 def choice(xPos, yPos, buttonList):
-    for butt in buttonList: 
-        if butt.button.collidepoint(xPos, yPos):
-            return 1
+    for i in range(len(buttonList)): 
+        if buttonList[i].button.collidepoint(xPos, yPos):
+            return i 
 
 def mapChoice():
     mapWidth = 500
-    mapHeight = 500
+    mapHeight = 400
     win = pygame.display.set_mode((mapWidth, mapHeight))
     pygame.display.set_caption('Map choice')
     win.fill((255, 255, 255))
-    mapList = ['MAP 1', 'MAP 2', 'MAP 3', 'MAP 4', 'MAP 5']
-    c = 0
+    mapList = ['MAP 1', 'MAP 2', 'MAP 3', 'MAP 4']
+    c = -1
     buttonList = drawButtonList(win, 250 - BUTTON_WIDTH/2, 20, BUTTON_WIDTH, BUTTON_HEIGHT, mapList)
     while True:
         for event in pygame.event.get():
@@ -56,8 +57,8 @@ def mapChoice():
                     xPos, yPos = pygame.mouse.get_pos()
                     c = choice(xPos, yPos, buttonList)
         pygame.display.flip()
-        if c != 0: 
-            return c 
+        if c != -1: 
+            return FILENAME[c]
 
 
 

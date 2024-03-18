@@ -9,22 +9,22 @@ import random
 
 def main():
     # read from input 
-    filename = "input1.txt"
+    pygame.init()
+    filename = mapChoice()
     cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
     #return 2d array assigned to graph 
     graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
     points = ASTAR(graph)
 
-    # Initialize Pygame
-    pygame.init()
+    
     # Set up the displays
-    mapChoice()
     # Main loop
     map = Map(graph)
     running = True
-    update = 1
+    update = 0
     functionList = ['DFS', 'GBFS', 'A*']
     buttonList = drawButtonList(map.win, map.cols * WIDTH + 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT, functionList)
+    map.initMap()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -39,7 +39,6 @@ def main():
                     xPos, yPos = pygame.mouse.get_pos()
                     choice(xPos, yPos, buttonList)
         if (update == 1):
-            map.initMap()
             if points is None:
                 print("no path found.")
             else:
