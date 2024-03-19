@@ -7,8 +7,8 @@ class Cell:
     def __init__(self):
         self.point=[0,0]
         self.f = float('inf')
-        self.g = 0
-        self.h = 0
+        self.g = float(0)
+        self.h = float(0)
 
 
 class PathGraph:
@@ -152,20 +152,28 @@ def aStarPlus(array,start, end, pathsaving):
                     infoArray[xNew][yNew].point=t
                     t1= tracePath(end,infoArray)
 
-                    cheo=0
+                    cheo=float(0)
                     if change[0]==1:
                         if change[1]==1 or change[1]==-1:
                             cheo = 0.5
                     if change[0]==-1:
                         if change[1]==1 or change[1]==-1:
-                            cheo=0.5
+                            cheo= 0.5
 
-                    t2 =infoArray[t[0]][t[1]].g + 1 + cheo
+                    t2 =infoArray[t[0]][t[1]].g + 1.0 + cheo
+
                     pathsaving.add_path(start,end,t1,t2)
                     return pathsaving.get_path(start,end)
                     #return t1,t2
                 else:
-                    gNew = infoArray[t[0]][t[1]].g + 1
+                    cheo=float(0)
+                    if change[0]==1:
+                        if change[1]==1 or change[1]==-1:
+                            cheo = 0.5
+                    if change[0]==-1:
+                        if change[1]==1 or change[1]==-1:
+                            cheo= 0.5
+                    gNew = infoArray[t[0]][t[1]].g + 1 + cheo
                     hNew = heuristicFunction(newPoint,end)
                     fNew = gNew + hNew
                     
@@ -232,7 +240,7 @@ def ASTAR(array):
             optimalCost = currentCost
             res = childPath
 
-    #print (optimalCost)
+    #print (float(optimalCost))
     return res
     return res,optimalCost
 
@@ -244,12 +252,12 @@ def main():
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
         [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
-        [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-        [0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0 ],
         [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
         [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
