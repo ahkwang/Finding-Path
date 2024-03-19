@@ -151,7 +151,16 @@ def aStarPlus(array,start, end, pathsaving):
                 if isDestination(newPoint,end):
                     infoArray[xNew][yNew].point=t
                     t1= tracePath(end,infoArray)
-                    t2 =infoArray[t[0]][t[1]].g + 1
+
+                    cheo=0
+                    if change[0]==1:
+                        if change[1]==1 or change[1]==-1:
+                            cheo = 0.5
+                    if change[0]==-1:
+                        if change[1]==1 or change[1]==-1:
+                            cheo=0.5
+
+                    t2 =infoArray[t[0]][t[1]].g + 1 + cheo
                     pathsaving.add_path(start,end,t1,t2)
                     return pathsaving.get_path(start,end)
                     #return t1,t2
@@ -222,7 +231,10 @@ def ASTAR(array):
         if currentCost < optimalCost and childPath!=[]:
             optimalCost = currentCost
             res = childPath
+
+    #print (optimalCost)
     return res
+    return res,optimalCost
 
 
 def main():
@@ -237,7 +249,7 @@ def main():
         [0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
-        [0, 3, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
         [0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0 ],
         [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
         [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
