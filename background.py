@@ -42,11 +42,12 @@ class Map:
                     color = mapColor(self.graph[row][col])  
                 pygame.draw.rect(self.win, color, (col * WIDTH, row * HEIGHT, WIDTH, HEIGHT))
         self.drawGrid()
-    def drawPath(self, points):
+    def drawPath(self, points, cost):
         if points is None: 
             drawButton(self.win, WIDTH*self.cols/2 - 225, HEIGHT*self.rows/2, 450, 100, 'No path found', (120,120, 120), 80)
             pygame.display.flip()
             return
+        drawButton(self.win, self.cols * WIDTH + 20, self.rows * HEIGHT - 100, BUTTON_WIDTH, BUTTON_HEIGHT, "COST: " + str(cost), (0, 0, 0), (255, 255, 255), size = 20)
         for point in points:
             pygame.draw.rect(self.win, (255, 128, 0), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             self.drawGrid()

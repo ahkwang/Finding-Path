@@ -138,7 +138,7 @@ def Greedy(array2D):
         if path is not None:
             main_Path += path
         else:
-            return None  # Or any appropriate handling
+            return None, cost[0]  # Or any appropriate handling
 
     pickupPoint.insert(0, startPoint)
     temp_pickupPoint = pickupPoint.copy()
@@ -164,9 +164,9 @@ def Greedy(array2D):
     main_Path += res_Path
     
     if len(main_Path) == 0:
-        return None
+        return None, cost[0]
     
-    return main_Path
+    return main_Path, cost[0]
 
     
 

@@ -15,6 +15,7 @@ def main():
     funcChoice = -1
     functionList = ['DFS', 'GBFS', 'A*', 'BACK']
     buttonList = drawButtonList(map.win, map.cols * WIDTH + 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT, functionList)
+    pygame.display.set_caption('Robot Finding Path')
     map.initMap()
     while running:
         for event in pygame.event.get():
@@ -34,8 +35,8 @@ def main():
                 running = False
             else:
                 map.initMap()
-                points = findPath(graph, funcChoice) #path 
-                map.drawPath(points)
+                points, cost = findPath(graph, funcChoice) #path 
+                map.drawPath(points, cost)
                 funcChoice = -1
         # Update the display
         pygame.display.flip()
