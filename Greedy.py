@@ -21,8 +21,9 @@ def read_Array(array2D, startPoint, endPoint, pickupPoint):
                 pickupPoint.append(indexPoint)       
 
 
-def PytagoDistance ( point1, point2):
-    return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+def ManhattanDistance ( point1, point2):
+    #return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
+    return abs(point1[0] - point2[0]) + abs(point1[1] - point2[1])
 
 def check_Valid(point, array2D, arrayPath):
     if  point[0] < 1 or point[0] > len(array2D)-2 or point[1] < 1 or point[1] > len(array2D[0])-2 or array2D[point[0]][point[1]] == 1 :
@@ -31,7 +32,7 @@ def check_Valid(point, array2D, arrayPath):
         return False
     return True
 
-def Gready_Travel (startPoint, endPoint, array2D, cost ):
+def Greedy_Travel (startPoint, endPoint, array2D, cost ):
 
     indexPoint = startPoint[:]
     Path = []
@@ -44,21 +45,40 @@ def Gready_Travel (startPoint, endPoint, array2D, cost ):
         up=[indexPoint[0],indexPoint[1]+1]
         down=[indexPoint[0],indexPoint[1]-1]
 
+        up_right=[indexPoint[0]+1,indexPoint[1]+1]
+        up_left=[indexPoint[0]-1,indexPoint[1]+1]
+        down_right=[indexPoint[0]+1,indexPoint[1]-1]
+        down_left=[indexPoint[0]-1,indexPoint[1]-1]
+
 
         distance = MAX
         
-        if(check_Valid(up,array2D,Path) and distance > PytagoDistance(up,endPoint)):
+        if(check_Valid(up,array2D,Path) and distance > ManhattanDistance(up,endPoint)):
             indexPoint=up[:]
-            distance = PytagoDistance(up,endPoint)
-        if(check_Valid(right,array2D,Path) and distance > PytagoDistance(right,endPoint)):
+            distance = ManhattanDistance(up,endPoint)
+        if(check_Valid(right,array2D,Path) and distance > ManhattanDistance(right,endPoint)):
             indexPoint=right[:]
-            distance = PytagoDistance(right,endPoint)
-        if(check_Valid(down,array2D,Path) and distance > PytagoDistance(down,endPoint)):
+            distance = ManhattanDistance(right,endPoint)
+        if(check_Valid(down,array2D,Path) and distance > ManhattanDistance(down,endPoint)):
             indexPoint=down[:]
-            distance = PytagoDistance(down,endPoint)
-        if(check_Valid(left,array2D,Path) and distance > PytagoDistance(left,endPoint)):
+            distance = ManhattanDistance(down,endPoint)
+        if(check_Valid(left,array2D,Path) and distance > ManhattanDistance(left,endPoint)):
             indexPoint=left[:]
-            distance = PytagoDistance(down,endPoint)
+            distance = ManhattanDistance(left,endPoint)
+
+
+        if(check_Valid(up_right,array2D,Path) and (check_Valid(right,array2D,Path) or  check_Valid(up,array2D,Path)) and distance > ManhattanDistance(up_right,endPoint)):
+            indexPoint=up_right[:]
+            distance = ManhattanDistance(up_right,endPoint)
+        if(check_Valid(up_left,array2D,Path) and (check_Valid(up,array2D,Path) or check_Valid(left,array2D,Path)) and distance > ManhattanDistance(up_left,endPoint)):
+            indexPoint=up_left[:]
+            distance = ManhattanDistance(up_left,endPoint)
+        if(check_Valid(down_right,array2D,Path) and (check_Valid(right,array2D,Path) or check_Valid(down,array2D,Path)) and distance > ManhattanDistance(down_right,endPoint)):
+            indexPoint=down_right[:]
+            distance = ManhattanDistance(down_right,endPoint)
+        if(check_Valid(down_left,array2D,Path) and (check_Valid(left,array2D,Path) or check_Valid(down,array2D,Path)) and distance > ManhattanDistance(down_left,endPoint)):
+            indexPoint=down_left[:]
+            distance = ManhattanDistance(down_left,endPoint)
             
         
         if distance == MAX:
@@ -73,7 +93,7 @@ def dp_TSP(endPoint, pickupPoint, array2D, main_Path):
     if len(pickupPoint) == 2 :
         sub_cost = [0]
         sub_cost [0] = 0
-        main_Path += Gready_Travel(pickupPoint[0], endPoint, array2D, sub_cost)
+        main_Path += Greedy_Travel(pickupPoint[0], endPoint, array2D, sub_cost)
         return sub_cost[0]
 
     cost = MAX
@@ -83,17 +103,20 @@ def dp_TSP(endPoint, pickupPoint, array2D, main_Path):
 
     for indexPoint in temp_pickupPoint[1:]:
         sub_Path=[]
-        
         sub_cost = [0]
         sub_cost [0] = 0
-        endPath = Gready_Travel(indexPoint, endPoint, array2D, sub_cost)
+        endPath = Greedy_Travel(indexPoint, endPoint, array2D, sub_cost)
+    
+        if endPath is not None:
+            endPath.append(endPoint)
+            temp = min(cost, dp_TSP(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
 
-        temp = min(cost, dp_TSP(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
-
-        if (temp < cost):
-            cost = temp 
-            sub_Path += endPath
-            res_Path = sub_Path[:]
+            if (temp < cost):
+                cost = temp 
+                sub_Path += endPath
+                res_Path = sub_Path[:]
+        else:
+            continue
     
     main_Path += res_Path
     return cost
@@ -111,7 +134,7 @@ def Greedy(array2D):
     cost[0] = MAX
 
     if len(pickupPoint) == 0:
-        path = Gready_Travel(startPoint, endPoint, array2D, cost)
+        path = Greedy_Travel(startPoint, endPoint, array2D, cost)
         if path is not None:
             main_Path += path
         else:
@@ -125,10 +148,11 @@ def Greedy(array2D):
         sub_Path = []  # save the path at each recursion 
         sub_cost = [0]
         sub_cost[0] = 0
-        endPath = Gready_Travel(indexPoint, endPoint, array2D, sub_cost)
+        endPath = Greedy_Travel(indexPoint, endPoint, array2D, sub_cost)
+        
         if endPath is not None:
+            
             endPath.append(endPoint)
-
             temp = min(cost[0], dp_TSP(indexPoint, temp_pickupPoint, array2D, sub_Path) + sub_cost[0])
 
             if temp < cost[0]:
@@ -136,9 +160,12 @@ def Greedy(array2D):
                 sub_Path += endPath
                 res_Path = sub_Path[:]
         else:
-            return None  # Or any appropriate handling
-
+            continue  # Or any appropriate handling
     main_Path += res_Path
+    
+    if len(main_Path) == 0:
+        return None
+    
     return main_Path
 
     
