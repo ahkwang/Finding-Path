@@ -66,7 +66,7 @@ def Greedy_Travel (startPoint, endPoint, array2D, cost ):
             indexPoint=left[:]
             distance = ManhattanDistance(left,endPoint)
 
-
+        temp = distance
         if(check_Valid(up_right,array2D,Path) and (check_Valid(right,array2D,Path) or  check_Valid(up,array2D,Path)) and distance > ManhattanDistance(up_right,endPoint)):
             indexPoint=up_right[:]
             distance = ManhattanDistance(up_right,endPoint)
@@ -83,7 +83,7 @@ def Greedy_Travel (startPoint, endPoint, array2D, cost ):
         
         if distance == MAX:
             return None
-        
+        if temp != distance: cost[0] += 0.5
         cost[0] += 1
 
     return Path

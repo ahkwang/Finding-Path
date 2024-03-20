@@ -1,9 +1,9 @@
 from background import *
-from Astar import *
+from aStar import *
 from DFSTSP import *
 from Greedy import *
 
-FILENAME = ['input0.txt', 'input1.txt', 'input2.txt', 'input3.txt', 'input4.txt']
+FILENAME = ['input0.txt', 'input1.txt', 'input2.txt', 'input3.txt']
 BACKGROUND_COLOR = (255, 2, 3)
 TEXT_COLOR = (204, 204, 255)
 BUTTON_WIDTH = 100
@@ -34,7 +34,8 @@ def drawButton(win, x, y, width, height, text, buttonColor, textColor = (255, 25
 def choice(xPos, yPos, buttonList):
     for i in range(len(buttonList)): 
         if buttonList[i].button.collidepoint(xPos, yPos):
-            return i 
+            return i
+    return -1 
 def findPath(graph, i):
     if (i == 0):
         return dfsTSP(graph)
@@ -44,11 +45,11 @@ def findPath(graph, i):
         return ASTAR(graph)
 def mapChoice():
     mapWidth = 500
-    mapHeight = 500
+    mapHeight = 400
     win = pygame.display.set_mode((mapWidth, mapHeight))
     pygame.display.set_caption('Map choice')
     win.fill((255, 255, 255))
-    mapList = ['MAP 1', 'MAP 2', 'MAP 3', 'MAP 4', 'MAP 5']
+    mapList = ['MAP 1', 'MAP 2', 'MAP 3', 'MAP 4']
     c = -1
     buttonList = drawButtonList(win, 250 - BUTTON_WIDTH/2, 20, BUTTON_WIDTH, BUTTON_HEIGHT, mapList)
     while True:

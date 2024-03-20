@@ -44,7 +44,7 @@ class Map:
         self.drawGrid()
     def drawPath(self, points, cost):
         if points is None: 
-            drawButton(self.win, WIDTH*self.cols/2 - 225, HEIGHT*self.rows/2, 450, 100, 'No path found', (120,120, 120), 80)
+            drawButton(self.win, WIDTH*self.cols/2 - 225, HEIGHT*self.rows/2, 450, 100, 'No path found', (120,120, 120), 150)
             pygame.display.flip()
             return
         drawButton(self.win, self.cols * WIDTH + 20, self.rows * HEIGHT - 100, BUTTON_WIDTH, BUTTON_HEIGHT, "COST: " + str(cost), (0, 0, 0), (255, 255, 255), size = 20)
@@ -52,7 +52,7 @@ class Map:
             pygame.draw.rect(self.win, (255, 128, 0), (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             self.drawGrid()
             pygame.display.flip()
-            time.sleep(0.1)
+            time.sleep(0.04)
             if (self.graph[point[0]][point[1]] != 0):
                 pygame.draw.rect(self.win, mapColor(self.graph[point[0]][point[1]]) , (point[1] * WIDTH, point[0] * HEIGHT, WIDTH, HEIGHT))
             else: 
