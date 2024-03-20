@@ -1,7 +1,6 @@
 from fileProcessing import *
 from background import *
 from Astar import *
-from DFS import *
 from menu import *
 from DFSTSP import *
 from Greedy import *
@@ -9,10 +8,28 @@ import random
 
 def main():
     pygame.init()
-    filename = mapChoice()
-    cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
-    graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
-    map = Map(graph)
+    #filename = mapChoice()
+    #cols, rows, startPoint, endPoint, pickupPoints, polygons = readFile(filename)
+    #graph = createMap(cols, rows, startPoint, endPoint, pickupPoints, polygons)
+    
+    graph= [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 0, 1, 0 ],
+        [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0 ],
+        [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],   
+        [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+    ]
+    map=Map(graph)
+
     running = True
     funcChoice = -1
     functionList = ['DFS', 'GBFS', 'A*', 'BACK']

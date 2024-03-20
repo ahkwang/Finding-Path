@@ -26,7 +26,7 @@ def trace_path(cell):
     path.reverse()
     return path
 
-def dfs2(grid, start, end):
+def dfs(grid, start, end):
     if not start or not end:
         return None  
 
@@ -45,7 +45,9 @@ def dfs2(grid, start, end):
 
         neighbors = [
             Cell(current.x + 1, current.y), Cell(current.x - 1, current.y),
-            Cell(current.x, current.y + 1), Cell(current.x, current.y - 1)
+            Cell(current.x, current.y + 1), Cell(current.x, current.y - 1),
+            Cell(current.x + 1, current.y+1),Cell(current.x + 1, current.y - 1),
+            Cell(current.x - 1, current.y-1),Cell(current.x - 1, current.y + 1)
         ]
 
         for neighbor in neighbors:
@@ -72,14 +74,14 @@ def dfsTSP(grid):
         current_length = 0
         current_point = start
         for next_point in permutation:
-            path_segment = dfs2(grid, current_point, next_point)
+            path_segment = dfs(grid, current_point, next_point)
             if not path_segment:
                 break  
             current_path.extend(path_segment if current_point == start else path_segment[1:])
             current_length += len(path_segment) - 1
             current_point = next_point
         else:
-            path_to_end = dfs2(grid, current_point, end)
+            path_to_end = dfs(grid, current_point, end)
             if path_to_end:
                 current_path.extend(path_to_end if current_point == start else path_to_end[1:])
                 current_length += len(path_to_end) - 1
