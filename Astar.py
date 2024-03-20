@@ -1,6 +1,5 @@
 import heapq
 import itertools
-import numpy as np
 import math
 
 class Cell:

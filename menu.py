@@ -3,7 +3,7 @@ from Astar import *
 from DFSTSP import *
 from Greedy import *
 
-FILENAME = ['input1.txt', 'input2.txt', 'input3.txt', 'input4.txt', 'input5.txt']
+FILENAME = ['input0.txt', 'input1.txt', 'input2.txt', 'input3.txt', 'input4.txt']
 BACKGROUND_COLOR = (255, 2, 3)
 TEXT_COLOR = (204, 204, 255)
 BUTTON_WIDTH = 100
@@ -44,11 +44,11 @@ def findPath(graph, i):
         return ASTAR(graph)
 def mapChoice():
     mapWidth = 500
-    mapHeight = 400
+    mapHeight = 500
     win = pygame.display.set_mode((mapWidth, mapHeight))
     pygame.display.set_caption('Map choice')
     win.fill((255, 255, 255))
-    mapList = ['MAP 1', 'MAP 2', 'MAP 3', 'MAP 4']
+    mapList = ['MAP 1', 'MAP 2', 'MAP 3', 'MAP 4', 'MAP 5']
     c = -1
     buttonList = drawButtonList(win, 250 - BUTTON_WIDTH/2, 20, BUTTON_WIDTH, BUTTON_HEIGHT, mapList)
     while True:
@@ -64,9 +64,10 @@ def mapChoice():
                 if event.button == 1:
                     xPos, yPos = pygame.mouse.get_pos()
                     c = choice(xPos, yPos, buttonList)
+                    if c is not None and c >= 0 and c < len(FILENAME):  # Check if the index is valid
+                        return FILENAME[c]
         pygame.display.flip()
-        if c != -1: 
-            return FILENAME[c]
+
 
 
 

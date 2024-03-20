@@ -1,11 +1,9 @@
 from fileProcessing import *
 from background import *
 from Astar import *
-from DFS import *
 from menu import *
 from DFSTSP import *
 from Greedy import *
-import random
 
 def main():
     pygame.init()
@@ -33,17 +31,18 @@ def main():
                     funcChoice = choice(xPos, yPos, buttonList)
         if (funcChoice != -1):
             if (funcChoice == 3):
-                main()
+                running = False
             else:
                 map.initMap()
-                points = findPath(graph, funcChoice)
+                points = findPath(graph, funcChoice) #path 
                 map.drawPath(points)
                 funcChoice = -1
         # Update the display
         pygame.display.flip()
-    path = []
     # Clean up
     pygame.quit()
+    if not running:
+        main()
     
 if __name__ == "__main__":
     main()
