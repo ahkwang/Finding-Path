@@ -3,7 +3,7 @@ from aStar import *
 from DFSTSP import *
 from Greedy import *
 
-FILENAME = ['input0.txt', 'input1.txt', 'input2.txt', 'input3.txt']
+FILENAME = ['.//input//input0.txt', './/input//input1.txt', './/input//input2.txt', './/input//input3.txt']
 BACKGROUND_COLOR = (255, 2, 3)
 TEXT_COLOR = (204, 204, 255)
 BUTTON_WIDTH = 100
