@@ -1,5 +1,5 @@
 from background import *
-from aStar import *
+from Astar import *
 from DFSTSP import *
 from Greedy import *
 
