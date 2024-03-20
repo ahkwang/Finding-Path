@@ -46,8 +46,6 @@ def dfs(grid, start, end):
         neighbors = [
             Cell(current.x + 1, current.y), Cell(current.x - 1, current.y),
             Cell(current.x, current.y + 1), Cell(current.x, current.y - 1),
-            Cell(current.x + 1, current.y+1),Cell(current.x + 1, current.y - 1),
-            Cell(current.x - 1, current.y-1),Cell(current.x - 1, current.y + 1)
         ]
 
         for neighbor in neighbors:
